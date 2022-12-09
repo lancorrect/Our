@@ -351,10 +351,13 @@ class ABSAGCNData(Dataset):
             term = obj['aspect']
             term_start = obj['aspect_post'][0]
             term_end = obj['aspect_post'][1]
-            text_list = obj['text_list']
+            text_list = obj['text_list']  # text_list的每个元素是单个的单词或者标点符号
             left, term, right = text_list[: term_start], text_list[term_start: term_end], text_list[term_end: ]
 
-            from absa_parser import headparser
+            adj_distance = aspect_oriented_tree(opt, token=obj['text_list'], head=obj['head'],
+                                                as_start=obj['aspect_post'][0], as_end=obj['aspect_post'][0])
+
+            '''from absa_parser import headparser
             headp, syntree = headparser.parse_heads(text)
             ori_adj = softmax(headp[0])
             ori_adj = np.delete(ori_adj, 0, axis=0)
@@ -363,7 +366,7 @@ class ABSAGCNData(Dataset):
             if not opt.direct:
                 ori_adj = ori_adj + ori_adj.T
             ori_adj = ori_adj + np.eye(ori_adj.shape[0])
-            assert len(text_list) == ori_adj.shape[0] == ori_adj.shape[1], '{}-{}-{}'.format(len(text_list), text_list, ori_adj.shape)
+            assert len(text_list) == ori_adj.shape[0] == ori_adj.shape[1], '{}-{}-{}'.format(len(text_list), text_list, ori_adj.shape)'''
 
             left_tokens, term_tokens, right_tokens = [], [], []
             left_tok2ori_map, term_tok2ori_map, right_tok2ori_map = [], [], []
@@ -373,13 +376,13 @@ class ABSAGCNData(Dataset):
                 for t in tokenizer.tokenize(w):
                     left_tokens.append(t)                   # * ['expand', '##able', 'highly', 'like', '##ing']
                     left_tok2ori_map.append(ori_i)          # * [0, 0, 1, 2, 2]
-            asp_start = len(left_tokens)  # asp_start是aspect的起始位置
+            asp_start = len(left_tokens)  # asp_start是aspect的起始位置，这里与下面的offset是不等的，因为left_tokens里面有很多的单词片段，相当于长度增加了
             offset = len(left)  # 单词个数，之后要用它形成索引
             for ori_i, w in enumerate(term):        
                 for t in tokenizer.tokenize(w):
                     term_tokens.append(t)
                     # term_tok2ori_map.append(ori_i)
-                    term_tok2ori_map.append(ori_i + offset)
+                    term_tok2ori_map.append(ori_i + offset)  # ori_i+offset表明的是属于哪个单词
             asp_end = asp_start + len(term_tokens)
             offset += len(term) 
             for ori_i, w in enumerate(right):
@@ -387,6 +390,7 @@ class ABSAGCNData(Dataset):
                     right_tokens.append(t)
                     right_tok2ori_map.append(ori_i+offset)
 
+            # 如果最大长度小于left_tokens+right_tokens+2*term_tokens+3的长度，则看left_tokens和right_tokens哪个长截断哪个
             while len(left_tokens) + len(right_tokens) > tokenizer.max_seq_len-2*len(term_tokens) - 3:
                 if len(left_tokens) > len(right_tokens):
                     left_tokens.pop(0)
@@ -395,33 +399,41 @@ class ABSAGCNData(Dataset):
                     right_tokens.pop()
                     right_tok2ori_map.pop()
                     
-            bert_tokens = left_tokens + term_tokens + right_tokens
+            bert_tokens = left_tokens + term_tokens + right_tokens  # 将三者拼接在一起，相当于是完整的句子所有的单词片段按照顺序放在了一起
             tok2ori_map = left_tok2ori_map + term_tok2ori_map + right_tok2ori_map
             truncate_tok_len = len(bert_tokens)
-            tok_adj = np.zeros(
+            # 初始化邻接矩阵，维度大小要跟bert_tokens长度一样，bert_tokens里面是所有的单词片段
+            '''tok_adj = np.zeros(
+                (truncate_tok_len, truncate_tok_len), dtype='float32')'''
+            adj_reshape = np.zeros(
                 (truncate_tok_len, truncate_tok_len), dtype='float32')
             # 相当于是遍历一个矩阵，保证每个单词跟别的单词都有关系
+            '''for i in range(truncate_tok_len):
+                for j in range(truncate_tok_len):
+                    # 由于一个单词分出来了很多片段，tok2ori表示每个片段所属单词的索引，
+                    # 保证同属于一个单词的片段在邻接矩阵上的值是相等的
+                    tok_adj[i][j] = ori_adj[tok2ori_map[i]][tok2ori_map[j]]'''
             for i in range(truncate_tok_len):
                 for j in range(truncate_tok_len):
                     # 由于一个单词分出来了很多片段，tok2ori表示每个片段所属单词的索引，
                     # 保证同属于一个单词的片段在邻接矩阵上的值是相等的
-                    tok_adj[i][j] = ori_adj[tok2ori_map[i]][tok2ori_map[j]]
+                    adj_reshape[i][j] = adj_distance[tok2ori_map[i]][tok2ori_map[j]]
 
             # CLS+context+SEP+aspect+SEP
             context_asp_ids = [tokenizer.cls_token_id]+tokenizer.convert_tokens_to_ids(
                 bert_tokens)+[tokenizer.sep_token_id]+tokenizer.convert_tokens_to_ids(term_tokens)+[tokenizer.sep_token_id]
             context_asp_len = len(context_asp_ids)  # bert处理句式的长度
-            # 此处的padding只是添加完bert所需的cls和sep后还需要添加的长度，后面很多变量还是基于原始句子的长度所以不用它
+            # 此处的padding只是添加上bert所需的cls和sep后还需要添加的长度，后面很多变量还是基于原始句子的长度所以不用它
             paddings = [0] * (tokenizer.max_seq_len - context_asp_len)
-            context_len = len(bert_tokens)  # 原始句子的长度
+            context_len = len(bert_tokens)  # 原始句子所有单词片段整合在一起的长度，与context_asp_ids相比，没有cls, sep和term_tokens
             # 前面两个1一个是代表CLS，另一个是SEP，最后一个1是SEP
             context_asp_seg_ids = [0] * (1 + context_len + 1) + [1] * (len(term_tokens) + 1) + paddings
-            # 减一是因为前面有一个1了，如果还用opt.max_length-context_len就会超出范围
+            # 减一是因为前面有一个cls了，如果还用opt.max_length-context_len就会超出范围
             # 前面有个[0]的原因是模型中的输出结果第一位有一个cls分类隐藏向量，剩下的长度跟原始句子长度相同，
             # 之后需要src_mask运用到求注意力矩阵的过程中
             src_mask = [0] + [1] * context_len + [0] * (opt.max_length - context_len - 1)  # 原始句子的mask
             aspect_mask = [0] + [0] * asp_start + [1] * (asp_end - asp_start)
-            aspect_mask = aspect_mask + (opt.max_length - len(aspect_mask)) * [0]
+            aspect_mask = aspect_mask + (opt.max_length - len(aspect_mask)) * [0]  # 在aspect_mask中与aspect位置相对应的位置上标上1，其余地方标上0
             context_asp_attention_mask = [1] * context_asp_len + paddings  # 注意力mask
             context_asp_ids += paddings
             context_asp_ids = np.asarray(context_asp_ids, dtype='int64')
@@ -432,7 +444,7 @@ class ABSAGCNData(Dataset):
             # pad adj
             context_asp_adj_matrix = np.zeros(
                 (tokenizer.max_seq_len, tokenizer.max_seq_len)).astype('float32')
-            context_asp_adj_matrix[1:context_len + 1, 1:context_len + 1] = tok_adj
+            context_asp_adj_matrix[1:context_len + 1, 1:context_len + 1] = adj_reshape
             data = {
                 'text_bert_indices': context_asp_ids,
                 'bert_segments_ids': context_asp_seg_ids,

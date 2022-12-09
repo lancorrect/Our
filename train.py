@@ -12,7 +12,8 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from transformers import BertModel, AdamW
 from model import GCNClassifier
-from data_utils import build_tokenizer, build_embedding_matrix, SentenceDataset
+from model_bert import GCNBertClassifier
+from data_utils import build_tokenizer, build_embedding_matrix, SentenceDataset, Tokenizer4BertGCN, ABSAGCNData
 from prepare_vocab import VocabHelp
 from trainer import Trainer
 
@@ -22,7 +23,8 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
-model_classes = {'gcn': GCNClassifier}
+model_classes = {'gcn': GCNClassifier,
+                 'gcnbert': GCNBertClassifier}
 
 dataset_files = {
     'restaurant': {
@@ -42,12 +44,8 @@ dataset_files = {
 }
 
 input_colses = {
-    'atae_lstm': ['text', 'aspect'],
-    'ian': ['text', 'aspect'],
-    'syngcn': ['text', 'aspect', 'pos', 'head', 'deprel', 'post', 'mask', 'length', 'adj'],
     'gcn': ['text', 'aspect', 'pos', 'head', 'deprel', 'post', 'mask', 'length', 'adj_reshape'],
-    'dualgcn': ['text', 'aspect', 'pos', 'head', 'deprel', 'post', 'mask', 'length', 'adj'],
-    'dualgcnbert': ['text_bert_indices', 'bert_segments_ids', 'attention_mask', 'asp_start', 'asp_end', 'adj_matrix',
+    'gcnbert': ['text_bert_indices', 'bert_segments_ids', 'attention_mask', 'asp_start', 'asp_end', 'adj_matrix',
                     'src_mask', 'aspect_mask']
 }
 
@@ -68,7 +66,7 @@ optimizers = {
 
 # Hyperparameters
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_name', default='gcn', type=str, help=', '.join(model_classes.keys()))
+parser.add_argument('--model_name', default='gcn, gcnbert', type=str, help=', '.join(model_classes.keys()))
 parser.add_argument('--dataset', default='laptop', type=str, help=', '.join(dataset_files.keys()))
 parser.add_argument('--optimizer', default='adam', type=str, help=', '.join(optimizers.keys()))
 parser.add_argument('--initializer', default='xavier_uniform_', type=str, help=', '.join(initializers.keys()))
@@ -130,37 +128,44 @@ opt.inputs_cols = input_colses[opt.model_name]
 opt.initializer = initializers[opt.initializer]
 opt.optimizer = optimizers[opt.optimizer]
 
-logger.info('Building tokenizer...')
-tokenizer = build_tokenizer(
-    fnames=[opt.dataset_file['train'], opt.dataset_file['test']],
-    max_length=opt.max_length,
-    data_file='{}/{}_tokenizer.dat'.format(opt.vocab_dir, opt.dataset)
-)
-logger.info('Building embedding matrix...')
-embedding_matrix = build_embedding_matrix(
-    vocab=tokenizer.vocab,
-    embed_dim=opt.embed_dim,
-    data_file='{}/{}d_{}_embedding_matrix.dat'.format(opt.vocab_dir, str(opt.embed_dim), opt.dataset)
-)
+if 'bert' in opt.model_name:
+    tokenizer = Tokenizer4BertGCN(opt.max_length, opt.pretrained_bert_name)
+    bert = BertModel.from_pretrained(opt.pretrained_bert_name)
+    model = opt.model_class(bert, opt).to(opt.device)
+    trainset = ABSAGCNData(opt.dataset_file['train'], tokenizer, opt=opt)
+    testset = ABSAGCNData(opt.dataset_file['test'], tokenizer, opt=opt)
+else:
+    logger.info('Building tokenizer...')
+    tokenizer = build_tokenizer(
+        fnames=[opt.dataset_file['train'], opt.dataset_file['test']],
+        max_length=opt.max_length,
+        data_file='{}/{}_tokenizer.dat'.format(opt.vocab_dir, opt.dataset)
+    )
+    logger.info('Building embedding matrix...')
+    embedding_matrix = build_embedding_matrix(
+        vocab=tokenizer.vocab,
+        embed_dim=opt.embed_dim,
+        data_file='{}/{}d_{}_embedding_matrix.dat'.format(opt.vocab_dir, str(opt.embed_dim), opt.dataset)
+    )
 
-'''载入数据集中文本、位置、词性、依赖关系、情感极性的词典目的是为了方便之后的序列化，也利于模型的训练'''
-logger.info("Loading vocab...")
-token_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_tok.vocab')    # token
-post_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_post.vocab')    # position
-pos_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_pos.vocab')      # POS
-dep_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_dep.vocab')      # deprel
-pol_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_pol.vocab')      # polarity
-logger.info("token_vocab: {}, post_vocab: {}, pos_vocab: {}, dep_vocab: {}, pol_vocab: {}".format(
-    len(token_vocab), len(post_vocab), len(pos_vocab), len(dep_vocab), len(pol_vocab)))
+    '''载入数据集中文本、位置、词性、依赖关系、情感极性的词典目的是为了方便之后的序列化，也利于模型的训练'''
+    logger.info("Loading vocab...")
+    token_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_tok.vocab')    # token
+    post_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_post.vocab')    # position
+    pos_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_pos.vocab')      # POS
+    dep_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_dep.vocab')      # deprel
+    pol_vocab = VocabHelp.load_vocab(opt.vocab_dir + '/vocab_pol.vocab')      # polarity
+    logger.info("token_vocab: {}, post_vocab: {}, pos_vocab: {}, dep_vocab: {}, pol_vocab: {}".format(
+        len(token_vocab), len(post_vocab), len(pos_vocab), len(dep_vocab), len(pol_vocab)))
 
-opt.post_size = len(post_vocab)  # 位置词典的大小
-opt.pos_size = len(pos_vocab)  # 词性标签大小
-opt.device = torch.cuda.current_device() if torch.cuda.is_available() else "cpu"  # gpu加速
+    opt.post_size = len(post_vocab)  # 位置词典的大小
+    opt.pos_size = len(pos_vocab)  # 词性标签大小
+    opt.device = torch.cuda.current_device() if torch.cuda.is_available() else "cpu"  # gpu加速
 
-vocab_help = (post_vocab, pos_vocab, dep_vocab, pol_vocab)
-model = opt.model_class(opt, embedding_matrix).to(opt.device)
-trainset = SentenceDataset(opt.dataset_file['train'], tokenizer, opt=opt, vocab_help=vocab_help)
-testset = SentenceDataset(opt.dataset_file['test'], tokenizer, opt=opt, vocab_help=vocab_help)
+    vocab_help = (post_vocab, pos_vocab, dep_vocab, pol_vocab)
+    model = opt.model_class(opt, embedding_matrix).to(opt.device)
+    trainset = SentenceDataset(opt.dataset_file['train'], tokenizer, opt=opt, vocab_help=vocab_help)
+    testset = SentenceDataset(opt.dataset_file['test'], tokenizer, opt=opt, vocab_help=vocab_help)
 
 train_dataloader = DataLoader(dataset=trainset, batch_size=opt.batch_size, shuffle=True)
 test_dataloader = DataLoader(dataset=testset, batch_size=opt.batch_size)
@@ -189,6 +194,7 @@ if not os.path.exists('./results'):
     os.makedirs('./results', mode=0o777)
 
 our_trainer = Trainer(opt, model, train_dataloader, test_dataloader, logger)
+our_trainer._print_args()
 our_trainer.run()
 t_end = time.time()
 print('运行时间为：', round(t_end-t_start), 'secs')

@@ -205,7 +205,7 @@ class Trainer:
         final_result['model_path'] = model_path
         keys = ['learning_rate', 'l2reg', 'num_epoch', 'batch_size', 'embed_dim', 'post_dim',
                 'pos_dim', 'hidden_dim', 'num_layers', 'input_dropout', 'gcn_dropout', 'rnn_hidden',
-                'attention_heads', 'seed', 'fusion', 'alpha', 'beta']
+                'attention_heads', 'seed', 'fusion', 'alpha', 'beta', 'gama']
         for arg in vars(self.opt):
             if arg in keys:
                 final_result[arg] = (vars(self.opt)[arg])
