@@ -193,7 +193,7 @@ class GCN(nn.Module):
 
         # distance based weighted matrix 把指数弄上去
         adj_reshape = adj_reshape[:, :maxlen, :maxlen]
-        adj_reshape = torch.exp((-1)*self.opt.alpha*adj_reshape)
+        adj_reshape = torch.exp(self.opt.alpha*adj_reshape)
 
         # aspect-aware attention * distance based weighted matrix
         distance_mask = (aspect_score_avg > torch.ones_like(aspect_score_avg)*self.opt.beta)  # 找到大于阈值的位置，如果大于阈值，值为1，否则为0

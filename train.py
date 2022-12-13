@@ -66,7 +66,7 @@ optimizers = {
 
 # Hyperparameters
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_name', default='gcn, gcnbert', type=str, help=', '.join(model_classes.keys()))
+parser.add_argument('--model_name', default='gcn', type=str, help=', '.join(model_classes.keys()))
 parser.add_argument('--dataset', default='laptop', type=str, help=', '.join(dataset_files.keys()))
 parser.add_argument('--optimizer', default='adam', type=str, help=', '.join(optimizers.keys()))
 parser.add_argument('--initializer', default='xavier_uniform_', type=str, help=', '.join(initializers.keys()))
@@ -108,7 +108,7 @@ parser.add_argument('--cuda', default='0', type=str)
 
 parser.add_argument('--fusion', default=True, type=bool,
                     help='fuse distance based weighted matrices belonging to different aspects')
-parser.add_argument('--alpha', default=-1, type=float, help='the weight of distance')
+parser.add_argument('--alpha', default=1.0, type=float, help='the weight of distance')
 parser.add_argument('--beta', default=0.5, type=float, help='the threshold that whether link aspect with words directly')
 parser.add_argument('--gama', default=0.5, type=float, help='the weight of kl divergence loss')
 parser.add_argument('--distance_matrix_debug', default=False, type=bool, help='debug mode')

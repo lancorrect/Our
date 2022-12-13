@@ -26,12 +26,12 @@ class GCNBertClassifier(nn.Module):
         super().__init__()
         self.opt = opt
         self.gcn_model = GCNAbsaModel(bert, opt=opt)
-        self.classifier = nn.Linear(100, opt.polarities_dim)
+        self.classifier = nn.Linear(opt.bert_dim*2, opt.polarities_dim)
 
     def forward(self, inputs):
         outputs1, outputs2, kl_loss,  pooled_output= self.gcn_model(inputs)
         final_outputs = torch.cat((outputs1, outputs2, pooled_output), dim=-1)
-        logits = self.classifier(outputs1)
+        logits = self.classifier(final_outputs)
 
         return logits, kl_loss
 
@@ -78,31 +78,36 @@ class GCNBert(nn.Module):
             input_dim = self.bert_dim if layer == 0 else self.mem_dim  # 第一层维数是bert的维数，后面是自定义的
             self.W.append(nn.Linear(input_dim, self.mem_dim))
 
-        self.attn = MultiHeadAttention(opt.attention_heads, self.attdim)
-        self.weight_list = nn.ModuleList()
+        self.attn = MultiHeadAttention(self.opt, opt.attention_heads, self.bert_dim)
+        self.wa = nn.ModuleList()
+        for layer in range(self.layers):
+            input_dim = self.bert_dim if layer == 0 else self.mem_dim
+            self.wa.append(nn.Linear(input_dim, self.mem_dim))
+
+        self.ws = nn.ModuleList()
         for j in range(self.layers):
             input_dim = self.bert_dim if j == 0 else self.mem_dim
-            self.weight_list.append(nn.Linear(input_dim, self.mem_dim))
+            self.ws.append(nn.Linear(input_dim, self.mem_dim))
 
         self.affine1 = nn.Parameter(torch.Tensor(self.mem_dim, self.mem_dim))
         self.affine2 = nn.Parameter(torch.Tensor(self.mem_dim, self.mem_dim))
 
     def forward(self, inputs):
-        text_bert_indices, bert_segments_ids, attention_mask, asp_start, asp_end, adj_reshape, src_mask, aspect_mask = inputs
+        text_bert_indices, bert_segments_ids, attention_mask, asp_start, asp_end, adj_reshape, src_mask, aspect_mask = inputs  # aspect_mask[batch_size, max_length]
         src_mask = src_mask.unsqueeze(-2) 
         batch = src_mask.size(0)
         len = src_mask.size()[2]
         
-        sequence_output, pooled_output = self.bert(text_bert_indices, attention_mask=attention_mask, token_type_ids=bert_segments_ids).values()
+        sequence_output, pooled_output = self.bert(text_bert_indices, attention_mask=attention_mask, token_type_ids=bert_segments_ids).values()  # 必须添加values，否则输出的结果是key，是一行字符串
         sequence_output = self.layernorm(sequence_output)
         gcn_inputs = self.bert_drop(sequence_output)
         pooled_output = self.pooled_drop(pooled_output)
 
         # gcn_inputs = self.Wxx(gcn_inputs)
         aspect_ids = aspect_indices(aspect_mask)
-        asp_wn = aspect_mask.sum(dim=1).unsqueeze(-1)  
+        # asp_wn = aspect_mask.sum(dim=1).unsqueeze(-1)  # batch中每条数据的aspect所拥有的的单词数
         aspect_mask = aspect_mask.unsqueeze(-1).repeat(1, 1, self.bert_dim)
-        aspect_outs = (gcn_inputs*aspect_mask).sum(dim=1) / asp_wn
+        aspect_outs = gcn_inputs*aspect_mask
 
         aspect_scores, s_attn = self.attn(gcn_inputs, gcn_inputs, src_mask, aspect_outs, aspect_ids)
         aspect_score_list = [attn_adj.squeeze(1) for attn_adj in torch.split(aspect_scores, 1, dim=1)]
@@ -139,7 +144,7 @@ class GCNBert(nn.Module):
 
         # distance based weighted matrix 把指数弄上去
         # adj_reshape = adj_reshape[:, :maxlen, :maxlen]
-        adj_reshape = torch.exp((-1) * self.opt.alpha * adj_reshape)
+        adj_reshape = torch.exp(self.opt.alpha * adj_reshape)
 
         # aspect-aware attention * distance based weighted matrix
         distance_mask = (
@@ -244,7 +249,7 @@ def attention(opt, query, key, aspect, aspect_ids, weight_m, bias_m, mask, dropo
     if dropout is not None:
         s_attn = dropout(s_attn)
 
-    return aspect_scores.cuda(), s_attn.cuda()
+    return aspect_scores, s_attn
 
  
 def clones(module, N):
@@ -253,8 +258,9 @@ def clones(module, N):
 
 class MultiHeadAttention(nn.Module):
 
-    def __init__(self, h, d_model, dropout=0.1):
+    def __init__(self, opt, h, d_model, dropout=0.1):
         super(MultiHeadAttention, self).__init__()  
+        self.opt = opt
         self.d_k = d_model // h  
         self.h = h    
         self.linears = clones(nn.Linear(d_model, d_model), 2)
