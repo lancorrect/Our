@@ -1,0 +1,544 @@
+n_trainable_params: 113030788, n_nontrainable_params: 0
+training arguments:
+>>> model_name: gcnbert
+>>> dataset: laptop
+>>> optimizer: <class 'torch.optim.adam.Adam'>
+>>> initializer: <function xavier_uniform_ at 0x7f17ea8c7820>
+>>> learning_rate: 0.002
+>>> l2reg: 0.0001
+>>> num_epoch: 15
+>>> batch_size: 16
+>>> log_step: 5
+>>> embed_dim: 300
+>>> post_dim: 30
+>>> pos_dim: 30
+>>> hidden_dim: 768
+>>> num_layers: 1
+>>> polarities_dim: 3
+>>> input_dropout: 0.7
+>>> gcn_dropout: 0.1
+>>> lower: True
+>>> direct: False
+>>> loop: True
+>>> bidirect: True
+>>> rnn_hidden: 50
+>>> rnn_layers: 1
+>>> rnn_dropout: 0.1
+>>> attention_heads: 1
+>>> max_length: 100
+>>> multi_hop: False
+>>> max_hop: 4
+>>> device: cuda
+>>> seed: 1000
+>>> weight_decay: 0.0
+>>> vocab_dir: ./dataset/Laptops_corenlp
+>>> pad_id: 0
+>>> parseadj: False
+>>> parsehead: False
+>>> cuda: 0
+>>> fusion: True
+>>> alpha: 0.1
+>>> beta: 0.1
+>>> gama: 0.9
+>>> distance_matrix_debug: False
+>>> pretrained_bert_name: bert-base-uncased
+>>> adam_epsilon: 1e-08
+>>> bert_dim: 768
+>>> bert_dropout: 0.3
+>>> diff_lr: False
+>>> bert_lr: 2e-05
+>>> model_class: <class 'model_bert.GCNBertClassifier'>
+>>> dataset_file: {'train': './dataset/Laptops_corenlp/train.json', 'test': './dataset/Laptops_corenlp/test.json'}
+>>> inputs_cols: ['text_bert_indices', 'bert_segments_ids', 'attention_mask', 'asp_start', 'asp_end', 'adj_matrix', 'src_mask', 'aspect_mask']
+bert learning rate on
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 1
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.5411_f1_0.3876
+loss: 1.1448, acc: 0.3125, test_acc: 0.5411, f1: 0.3876
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.6013_f1_0.4230
+loss: 1.0676, acc: 0.3125, test_acc: 0.6013, f1: 0.4230
+loss: 0.9797, acc: 0.3958, test_acc: 0.5949, f1: 0.4023
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.6044_f1_0.4076
+loss: 0.9722, acc: 0.4375, test_acc: 0.6044, f1: 0.4076
+loss: 1.0185, acc: 0.4500, test_acc: 0.5949, f1: 0.3882
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.6345_f1_0.4474
+loss: 1.1282, acc: 0.4583, test_acc: 0.6345, f1: 0.4474
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.6487_f1_0.4722
+loss: 0.8431, acc: 0.4821, test_acc: 0.6487, f1: 0.4722
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.7073_f1_0.5974
+loss: 0.9577, acc: 0.4844, test_acc: 0.7073, f1: 0.5974
+loss: 0.9005, acc: 0.4931, test_acc: 0.7057, f1: 0.6336
+loss: 0.7671, acc: 0.5125, test_acc: 0.6867, f1: 0.5410
+loss: 0.7862, acc: 0.5341, test_acc: 0.6725, f1: 0.5057
+loss: 0.6768, acc: 0.5521, test_acc: 0.6187, f1: 0.4761
+loss: 0.8283, acc: 0.5625, test_acc: 0.6867, f1: 0.6130
+loss: 0.6757, acc: 0.5759, test_acc: 0.6915, f1: 0.5738
+loss: 0.6610, acc: 0.5917, test_acc: 0.7073, f1: 0.5997
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.7342_f1_0.6697
+loss: 0.5684, acc: 0.6094, test_acc: 0.7342, f1: 0.6697
+loss: 0.7896, acc: 0.6140, test_acc: 0.6266, f1: 0.5494
+loss: 0.7130, acc: 0.6215, test_acc: 0.6930, f1: 0.6229
+loss: 0.5070, acc: 0.6283, test_acc: 0.7278, f1: 0.6361
+loss: 0.6113, acc: 0.6375, test_acc: 0.7326, f1: 0.6386
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.7769_f1_0.7220
+loss: 0.5453, acc: 0.6488, test_acc: 0.7769, f1: 0.7220
+loss: 0.4851, acc: 0.6591, test_acc: 0.7690, f1: 0.7110
+loss: 0.6540, acc: 0.6630, test_acc: 0.7595, f1: 0.6995
+loss: 0.6750, acc: 0.6667, test_acc: 0.7595, f1: 0.7080
+loss: 0.7201, acc: 0.6675, test_acc: 0.7722, f1: 0.7227
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.7896_f1_0.7410
+loss: 0.6199, acc: 0.6683, test_acc: 0.7896, f1: 0.7410
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.7975_f1_0.7643
+loss: 0.4912, acc: 0.6736, test_acc: 0.7975, f1: 0.7643
+loss: 0.8164, acc: 0.6741, test_acc: 0.7785, f1: 0.7367
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 2
+loss: 0.4490, acc: 0.8750, test_acc: 0.7722, f1: 0.7193
+loss: 0.7334, acc: 0.7812, test_acc: 0.7611, f1: 0.6992
+loss: 0.6493, acc: 0.7708, test_acc: 0.7579, f1: 0.6954
+loss: 0.5780, acc: 0.7812, test_acc: 0.7658, f1: 0.7042
+loss: 0.5299, acc: 0.7875, test_acc: 0.7627, f1: 0.6976
+loss: 0.5336, acc: 0.7917, test_acc: 0.7579, f1: 0.6899
+loss: 0.5965, acc: 0.7768, test_acc: 0.7421, f1: 0.6683
+loss: 0.3707, acc: 0.7891, test_acc: 0.7405, f1: 0.6688
+loss: 0.6574, acc: 0.7847, test_acc: 0.7690, f1: 0.7166
+loss: 0.4674, acc: 0.7937, test_acc: 0.7848, f1: 0.7305
+loss: 0.3300, acc: 0.8011, test_acc: 0.7627, f1: 0.6940
+loss: 0.6004, acc: 0.7969, test_acc: 0.7563, f1: 0.6837
+loss: 0.2206, acc: 0.8077, test_acc: 0.7611, f1: 0.7077
+loss: 0.6170, acc: 0.8080, test_acc: 0.7801, f1: 0.7452
+loss: 0.3562, acc: 0.8125, test_acc: 0.7832, f1: 0.7442
+loss: 0.1911, acc: 0.8203, test_acc: 0.7547, f1: 0.6872
+loss: 0.9634, acc: 0.8125, test_acc: 0.7263, f1: 0.6428
+loss: 0.3681, acc: 0.8125, test_acc: 0.7532, f1: 0.6921
+loss: 0.8419, acc: 0.8026, test_acc: 0.7785, f1: 0.7325
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.8038_f1_0.7672
+loss: 0.3319, acc: 0.8063, test_acc: 0.8038, f1: 0.7672
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.8228_f1_0.7880
+loss: 0.3952, acc: 0.8095, test_acc: 0.8228, f1: 0.7880
+loss: 0.3714, acc: 0.8125, test_acc: 0.7753, f1: 0.7261
+loss: 0.5207, acc: 0.8125, test_acc: 0.7547, f1: 0.6996
+loss: 0.7064, acc: 0.8099, test_acc: 0.7658, f1: 0.7011
+loss: 0.4969, acc: 0.8075, test_acc: 0.7753, f1: 0.7120
+loss: 0.4668, acc: 0.8077, test_acc: 0.8117, f1: 0.7698
+loss: 0.5155, acc: 0.8079, test_acc: 0.7959, f1: 0.7515
+loss: 0.2842, acc: 0.8103, test_acc: 0.7611, f1: 0.7162
+loss: 0.1353, acc: 0.8147, test_acc: 0.7263, f1: 0.6845
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 3
+loss: 0.3910, acc: 0.8750, test_acc: 0.7358, f1: 0.6902
+loss: 0.5049, acc: 0.8438, test_acc: 0.7690, f1: 0.7252
+loss: 0.3130, acc: 0.8542, test_acc: 0.7801, f1: 0.7285
+loss: 0.2777, acc: 0.8750, test_acc: 0.7848, f1: 0.7395
+loss: 0.1144, acc: 0.8875, test_acc: 0.7927, f1: 0.7496
+loss: 0.2027, acc: 0.8958, test_acc: 0.7864, f1: 0.7376
+loss: 0.3162, acc: 0.8929, test_acc: 0.7991, f1: 0.7587
+loss: 0.2609, acc: 0.8984, test_acc: 0.7975, f1: 0.7598
+loss: 0.3044, acc: 0.8889, test_acc: 0.7880, f1: 0.7392
+loss: 0.2651, acc: 0.8938, test_acc: 0.7547, f1: 0.6763
+loss: 0.7659, acc: 0.8750, test_acc: 0.7658, f1: 0.6981
+loss: 0.4967, acc: 0.8646, test_acc: 0.7769, f1: 0.7246
+loss: 0.3292, acc: 0.8606, test_acc: 0.7737, f1: 0.7108
+loss: 0.2770, acc: 0.8661, test_acc: 0.7547, f1: 0.6851
+loss: 0.2680, acc: 0.8667, test_acc: 0.7706, f1: 0.7180
+loss: 0.3950, acc: 0.8633, test_acc: 0.7896, f1: 0.7488
+loss: 0.3126, acc: 0.8603, test_acc: 0.7927, f1: 0.7506
+loss: 0.5196, acc: 0.8611, test_acc: 0.7627, f1: 0.6932
+loss: 0.3272, acc: 0.8586, test_acc: 0.7453, f1: 0.6595
+loss: 0.2638, acc: 0.8594, test_acc: 0.7547, f1: 0.6957
+loss: 0.3383, acc: 0.8601, test_acc: 0.7722, f1: 0.7332
+loss: 0.1117, acc: 0.8665, test_acc: 0.7769, f1: 0.7366
+loss: 0.1760, acc: 0.8696, test_acc: 0.7769, f1: 0.7277
+loss: 0.4251, acc: 0.8672, test_acc: 0.7880, f1: 0.7370
+loss: 0.2816, acc: 0.8675, test_acc: 0.8085, f1: 0.7696
+loss: 0.1674, acc: 0.8702, test_acc: 0.7975, f1: 0.7526
+loss: 0.2408, acc: 0.8704, test_acc: 0.7801, f1: 0.7139
+loss: 0.1301, acc: 0.8728, test_acc: 0.7674, f1: 0.7064
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 4
+loss: 0.1402, acc: 0.9375, test_acc: 0.7785, f1: 0.7373
+loss: 0.1013, acc: 0.9688, test_acc: 0.7927, f1: 0.7536
+loss: 0.1855, acc: 0.9583, test_acc: 0.7975, f1: 0.7586
+loss: 0.1193, acc: 0.9688, test_acc: 0.7880, f1: 0.7426
+loss: 0.0287, acc: 0.9750, test_acc: 0.7785, f1: 0.7282
+loss: 0.0469, acc: 0.9792, test_acc: 0.8006, f1: 0.7551
+loss: 0.5265, acc: 0.9554, test_acc: 0.8006, f1: 0.7619
+loss: 0.3209, acc: 0.9375, test_acc: 0.7991, f1: 0.7590
+loss: 0.2338, acc: 0.9306, test_acc: 0.8006, f1: 0.7636
+loss: 0.3589, acc: 0.9250, test_acc: 0.7737, f1: 0.7153
+loss: 0.0346, acc: 0.9318, test_acc: 0.7722, f1: 0.7095
+loss: 0.1696, acc: 0.9323, test_acc: 0.7722, f1: 0.7115
+loss: 0.4070, acc: 0.9279, test_acc: 0.7848, f1: 0.7331
+loss: 0.2953, acc: 0.9196, test_acc: 0.7832, f1: 0.7295
+loss: 0.1890, acc: 0.9250, test_acc: 0.7753, f1: 0.7303
+loss: 0.0620, acc: 0.9297, test_acc: 0.7785, f1: 0.7343
+loss: 0.1597, acc: 0.9301, test_acc: 0.7579, f1: 0.6977
+loss: 0.4018, acc: 0.9271, test_acc: 0.7611, f1: 0.6952
+loss: 0.0963, acc: 0.9276, test_acc: 0.7769, f1: 0.7353
+loss: 0.0208, acc: 0.9313, test_acc: 0.7864, f1: 0.7468
+loss: 0.4639, acc: 0.9286, test_acc: 0.7832, f1: 0.7376
+loss: 0.3521, acc: 0.9261, test_acc: 0.7532, f1: 0.6801
+loss: 0.1499, acc: 0.9266, test_acc: 0.7706, f1: 0.7254
+loss: 0.3003, acc: 0.9245, test_acc: 0.7801, f1: 0.7521
+loss: 0.3753, acc: 0.9225, test_acc: 0.7753, f1: 0.7421
+loss: 0.1715, acc: 0.9231, test_acc: 0.7911, f1: 0.7497
+loss: 0.1524, acc: 0.9236, test_acc: 0.7927, f1: 0.7566
+loss: 0.2194, acc: 0.9241, test_acc: 0.7943, f1: 0.7543
+loss: 0.1299, acc: 0.9246, test_acc: 0.7785, f1: 0.7270
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 5
+loss: 0.0487, acc: 1.0000, test_acc: 0.7896, f1: 0.7502
+loss: 0.0690, acc: 1.0000, test_acc: 0.7864, f1: 0.7474
+loss: 0.0480, acc: 1.0000, test_acc: 0.7848, f1: 0.7459
+loss: 0.2271, acc: 0.9844, test_acc: 0.7880, f1: 0.7394
+loss: 0.0342, acc: 0.9875, test_acc: 0.7785, f1: 0.7230
+loss: 0.0499, acc: 0.9896, test_acc: 0.7880, f1: 0.7415
+loss: 0.0546, acc: 0.9911, test_acc: 0.7896, f1: 0.7452
+loss: 0.0230, acc: 0.9922, test_acc: 0.7896, f1: 0.7475
+loss: 0.1516, acc: 0.9861, test_acc: 0.7848, f1: 0.7422
+loss: 0.2907, acc: 0.9750, test_acc: 0.7927, f1: 0.7514
+loss: 0.0207, acc: 0.9773, test_acc: 0.7959, f1: 0.7515
+loss: 0.2881, acc: 0.9740, test_acc: 0.7959, f1: 0.7508
+loss: 0.0403, acc: 0.9760, test_acc: 0.7880, f1: 0.7402
+loss: 0.0721, acc: 0.9777, test_acc: 0.7864, f1: 0.7391
+loss: 0.0991, acc: 0.9750, test_acc: 0.8038, f1: 0.7604
+loss: 0.1109, acc: 0.9727, test_acc: 0.7864, f1: 0.7433
+loss: 0.0057, acc: 0.9743, test_acc: 0.7627, f1: 0.7190
+loss: 0.2165, acc: 0.9688, test_acc: 0.7547, f1: 0.7044
+loss: 0.0048, acc: 0.9704, test_acc: 0.8054, f1: 0.7620
+loss: 0.1693, acc: 0.9688, test_acc: 0.7959, f1: 0.7517
+loss: 0.2717, acc: 0.9673, test_acc: 0.8038, f1: 0.7684
+loss: 0.0674, acc: 0.9688, test_acc: 0.8022, f1: 0.7637
+loss: 0.0767, acc: 0.9674, test_acc: 0.7690, f1: 0.6942
+loss: 0.4139, acc: 0.9635, test_acc: 0.7674, f1: 0.6937
+loss: 0.0098, acc: 0.9650, test_acc: 0.7911, f1: 0.7546
+loss: 0.0906, acc: 0.9639, test_acc: 0.7864, f1: 0.7514
+loss: 0.1200, acc: 0.9630, test_acc: 0.7706, f1: 0.7173
+loss: 0.1503, acc: 0.9621, test_acc: 0.7373, f1: 0.6449
+loss: 0.1634, acc: 0.9607, test_acc: 0.7627, f1: 0.7017
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 6
+loss: 0.0350, acc: 1.0000, test_acc: 0.7880, f1: 0.7513
+loss: 0.0221, acc: 1.0000, test_acc: 0.7911, f1: 0.7597
+loss: 0.2808, acc: 0.9583, test_acc: 0.7959, f1: 0.7556
+loss: 0.3051, acc: 0.9375, test_acc: 0.7595, f1: 0.6935
+loss: 0.0431, acc: 0.9500, test_acc: 0.7468, f1: 0.6698
+loss: 0.0323, acc: 0.9583, test_acc: 0.7690, f1: 0.7041
+loss: 0.0120, acc: 0.9643, test_acc: 0.7880, f1: 0.7449
+loss: 0.0221, acc: 0.9688, test_acc: 0.7785, f1: 0.7399
+loss: 0.2246, acc: 0.9583, test_acc: 0.7722, f1: 0.7344
+loss: 0.5867, acc: 0.9500, test_acc: 0.7880, f1: 0.7452
+loss: 0.0086, acc: 0.9545, test_acc: 0.7911, f1: 0.7475
+loss: 0.0233, acc: 0.9583, test_acc: 0.7880, f1: 0.7407
+loss: 0.0358, acc: 0.9615, test_acc: 0.7864, f1: 0.7390
+loss: 0.0125, acc: 0.9643, test_acc: 0.7880, f1: 0.7380
+loss: 0.0181, acc: 0.9667, test_acc: 0.7801, f1: 0.7215
+loss: 0.0159, acc: 0.9688, test_acc: 0.7674, f1: 0.6948
+loss: 0.2671, acc: 0.9632, test_acc: 0.7848, f1: 0.7293
+loss: 0.0647, acc: 0.9653, test_acc: 0.7959, f1: 0.7511
+loss: 0.0792, acc: 0.9671, test_acc: 0.7880, f1: 0.7480
+loss: 0.0300, acc: 0.9688, test_acc: 0.7991, f1: 0.7596
+loss: 0.0143, acc: 0.9702, test_acc: 0.7959, f1: 0.7509
+loss: 0.0148, acc: 0.9716, test_acc: 0.7880, f1: 0.7353
+loss: 0.0170, acc: 0.9728, test_acc: 0.7864, f1: 0.7337
+loss: 0.0765, acc: 0.9714, test_acc: 0.7864, f1: 0.7362
+loss: 0.0066, acc: 0.9725, test_acc: 0.7848, f1: 0.7406
+loss: 0.1017, acc: 0.9712, test_acc: 0.7832, f1: 0.7450
+loss: 0.0559, acc: 0.9722, test_acc: 0.7880, f1: 0.7539
+loss: 0.0261, acc: 0.9732, test_acc: 0.7880, f1: 0.7547
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 7
+loss: 0.0151, acc: 1.0000, test_acc: 0.7880, f1: 0.7397
+loss: 0.1369, acc: 0.9688, test_acc: 0.7769, f1: 0.7153
+loss: 0.0042, acc: 0.9792, test_acc: 0.7816, f1: 0.7276
+loss: 0.0169, acc: 0.9844, test_acc: 0.7864, f1: 0.7325
+loss: 0.0231, acc: 0.9875, test_acc: 0.7832, f1: 0.7402
+loss: 0.0532, acc: 0.9792, test_acc: 0.7848, f1: 0.7451
+loss: 0.0467, acc: 0.9821, test_acc: 0.7801, f1: 0.7415
+loss: 0.0174, acc: 0.9844, test_acc: 0.7832, f1: 0.7493
+loss: 0.0069, acc: 0.9861, test_acc: 0.7880, f1: 0.7573
+loss: 0.0574, acc: 0.9875, test_acc: 0.7896, f1: 0.7553
+loss: 0.0114, acc: 0.9886, test_acc: 0.7927, f1: 0.7563
+loss: 0.0032, acc: 0.9896, test_acc: 0.7911, f1: 0.7503
+loss: 0.0127, acc: 0.9904, test_acc: 0.7991, f1: 0.7597
+loss: 0.0282, acc: 0.9911, test_acc: 0.7959, f1: 0.7596
+loss: 0.0442, acc: 0.9917, test_acc: 0.7816, f1: 0.7498
+loss: 0.0206, acc: 0.9922, test_acc: 0.7753, f1: 0.7461
+loss: 0.0699, acc: 0.9890, test_acc: 0.7706, f1: 0.7387
+loss: 0.0480, acc: 0.9896, test_acc: 0.7722, f1: 0.7392
+loss: 0.0034, acc: 0.9901, test_acc: 0.7896, f1: 0.7496
+loss: 0.1474, acc: 0.9875, test_acc: 0.7864, f1: 0.7429
+loss: 0.0065, acc: 0.9881, test_acc: 0.7927, f1: 0.7518
+loss: 0.0062, acc: 0.9886, test_acc: 0.7864, f1: 0.7501
+loss: 0.1621, acc: 0.9864, test_acc: 0.7816, f1: 0.7439
+loss: 0.0387, acc: 0.9870, test_acc: 0.7737, f1: 0.7256
+loss: 0.0577, acc: 0.9850, test_acc: 0.7642, f1: 0.7000
+loss: 0.0863, acc: 0.9832, test_acc: 0.7627, f1: 0.6942
+loss: 0.1185, acc: 0.9815, test_acc: 0.7658, f1: 0.7197
+loss: 0.0247, acc: 0.9821, test_acc: 0.7801, f1: 0.7534
+loss: 0.1044, acc: 0.9806, test_acc: 0.7690, f1: 0.7406
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 8
+loss: 0.0051, acc: 1.0000, test_acc: 0.7532, f1: 0.7067
+loss: 0.3469, acc: 0.9688, test_acc: 0.7484, f1: 0.6926
+loss: 0.0078, acc: 0.9792, test_acc: 0.7453, f1: 0.6838
+loss: 0.0254, acc: 0.9844, test_acc: 0.7595, f1: 0.7038
+loss: 0.0341, acc: 0.9875, test_acc: 0.7722, f1: 0.7244
+loss: 0.0200, acc: 0.9896, test_acc: 0.7896, f1: 0.7515
+loss: 0.1784, acc: 0.9821, test_acc: 0.7880, f1: 0.7493
+loss: 0.0221, acc: 0.9844, test_acc: 0.7896, f1: 0.7521
+loss: 0.0075, acc: 0.9861, test_acc: 0.7896, f1: 0.7521
+loss: 0.0070, acc: 0.9875, test_acc: 0.7848, f1: 0.7449
+loss: 0.0131, acc: 0.9886, test_acc: 0.7816, f1: 0.7385
+loss: 0.0039, acc: 0.9896, test_acc: 0.7658, f1: 0.7129
+loss: 0.0070, acc: 0.9904, test_acc: 0.7547, f1: 0.6885
+loss: 0.0076, acc: 0.9911, test_acc: 0.7500, f1: 0.6857
+loss: 0.0116, acc: 0.9917, test_acc: 0.7516, f1: 0.6915
+loss: 0.0042, acc: 0.9922, test_acc: 0.7785, f1: 0.7316
+loss: 0.2125, acc: 0.9890, test_acc: 0.7801, f1: 0.7345
+loss: 0.0043, acc: 0.9896, test_acc: 0.7816, f1: 0.7360
+loss: 0.0089, acc: 0.9901, test_acc: 0.7816, f1: 0.7380
+loss: 0.0125, acc: 0.9906, test_acc: 0.7896, f1: 0.7494
+loss: 0.1798, acc: 0.9881, test_acc: 0.7816, f1: 0.7393
+loss: 0.0389, acc: 0.9886, test_acc: 0.7832, f1: 0.7391
+loss: 0.0827, acc: 0.9864, test_acc: 0.7848, f1: 0.7413
+loss: 0.0126, acc: 0.9870, test_acc: 0.7816, f1: 0.7393
+loss: 0.0059, acc: 0.9875, test_acc: 0.7816, f1: 0.7395
+loss: 0.0100, acc: 0.9880, test_acc: 0.7769, f1: 0.7269
+loss: 0.0069, acc: 0.9884, test_acc: 0.7690, f1: 0.7130
+loss: 0.0081, acc: 0.9888, test_acc: 0.7690, f1: 0.7102
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 9
+loss: 0.0074, acc: 1.0000, test_acc: 0.7706, f1: 0.7150
+loss: 0.0054, acc: 1.0000, test_acc: 0.7722, f1: 0.7173
+loss: 0.0026, acc: 1.0000, test_acc: 0.7911, f1: 0.7491
+loss: 0.0076, acc: 1.0000, test_acc: 0.7896, f1: 0.7500
+loss: 0.0265, acc: 1.0000, test_acc: 0.7880, f1: 0.7467
+loss: 0.0794, acc: 0.9896, test_acc: 0.7896, f1: 0.7463
+loss: 0.0041, acc: 0.9911, test_acc: 0.7801, f1: 0.7295
+loss: 0.0042, acc: 0.9922, test_acc: 0.7769, f1: 0.7226
+loss: 0.0493, acc: 0.9931, test_acc: 0.7785, f1: 0.7257
+loss: 0.0032, acc: 0.9938, test_acc: 0.7753, f1: 0.7265
+loss: 0.0068, acc: 0.9943, test_acc: 0.7880, f1: 0.7459
+loss: 0.0922, acc: 0.9896, test_acc: 0.7880, f1: 0.7482
+loss: 0.0027, acc: 0.9904, test_acc: 0.7880, f1: 0.7478
+loss: 0.0287, acc: 0.9911, test_acc: 0.7896, f1: 0.7475
+loss: 0.0022, acc: 0.9917, test_acc: 0.7832, f1: 0.7378
+loss: 0.1685, acc: 0.9883, test_acc: 0.7785, f1: 0.7301
+loss: 0.0048, acc: 0.9890, test_acc: 0.7769, f1: 0.7262
+loss: 0.0494, acc: 0.9861, test_acc: 0.7753, f1: 0.7236
+loss: 0.0043, acc: 0.9868, test_acc: 0.7848, f1: 0.7396
+loss: 0.0049, acc: 0.9875, test_acc: 0.7832, f1: 0.7375
+loss: 0.2706, acc: 0.9851, test_acc: 0.7785, f1: 0.7301
+loss: 0.0024, acc: 0.9858, test_acc: 0.7801, f1: 0.7332
+loss: 0.0040, acc: 0.9864, test_acc: 0.7848, f1: 0.7424
+loss: 0.0446, acc: 0.9870, test_acc: 0.7801, f1: 0.7365
+loss: 0.0062, acc: 0.9875, test_acc: 0.7880, f1: 0.7464
+loss: 0.0076, acc: 0.9880, test_acc: 0.7911, f1: 0.7514
+loss: 0.3222, acc: 0.9861, test_acc: 0.7864, f1: 0.7485
+loss: 0.0616, acc: 0.9844, test_acc: 0.7832, f1: 0.7399
+loss: 0.0330, acc: 0.9849, test_acc: 0.7753, f1: 0.7240
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 10
+loss: 0.0019, acc: 1.0000, test_acc: 0.7816, f1: 0.7407
+loss: 0.0585, acc: 0.9688, test_acc: 0.7769, f1: 0.7389
+loss: 0.0025, acc: 0.9792, test_acc: 0.7785, f1: 0.7436
+loss: 0.0022, acc: 0.9844, test_acc: 0.7753, f1: 0.7400
+loss: 0.0036, acc: 0.9875, test_acc: 0.7753, f1: 0.7400
+loss: 0.0019, acc: 0.9896, test_acc: 0.7722, f1: 0.7363
+loss: 0.0039, acc: 0.9911, test_acc: 0.7674, f1: 0.7290
+loss: 0.0027, acc: 0.9922, test_acc: 0.7690, f1: 0.7298
+loss: 0.0040, acc: 0.9931, test_acc: 0.7769, f1: 0.7371
+loss: 0.0405, acc: 0.9938, test_acc: 0.7816, f1: 0.7440
+loss: 0.0214, acc: 0.9943, test_acc: 0.7943, f1: 0.7612
+loss: 0.0024, acc: 0.9948, test_acc: 0.7816, f1: 0.7438
+loss: 0.0666, acc: 0.9904, test_acc: 0.7880, f1: 0.7505
+loss: 0.0049, acc: 0.9911, test_acc: 0.7769, f1: 0.7299
+loss: 0.0213, acc: 0.9917, test_acc: 0.7595, f1: 0.6977
+loss: 0.0047, acc: 0.9922, test_acc: 0.7500, f1: 0.6796
+loss: 0.0142, acc: 0.9926, test_acc: 0.7563, f1: 0.6909
+loss: 0.0036, acc: 0.9931, test_acc: 0.7658, f1: 0.7111
+loss: 0.0069, acc: 0.9934, test_acc: 0.7753, f1: 0.7308
+loss: 0.0037, acc: 0.9938, test_acc: 0.7753, f1: 0.7331
+loss: 0.0083, acc: 0.9940, test_acc: 0.7801, f1: 0.7411
+loss: 0.1509, acc: 0.9915, test_acc: 0.7801, f1: 0.7407
+loss: 0.0034, acc: 0.9918, test_acc: 0.7848, f1: 0.7471
+loss: 0.0031, acc: 0.9922, test_acc: 0.7816, f1: 0.7437
+loss: 0.0319, acc: 0.9925, test_acc: 0.7848, f1: 0.7476
+loss: 0.0059, acc: 0.9928, test_acc: 0.7927, f1: 0.7558
+loss: 0.0115, acc: 0.9931, test_acc: 0.7911, f1: 0.7541
+loss: 0.0032, acc: 0.9933, test_acc: 0.7896, f1: 0.7497
+loss: 0.0021, acc: 0.9934, test_acc: 0.7848, f1: 0.7415
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 11
+loss: 0.0100, acc: 1.0000, test_acc: 0.7801, f1: 0.7331
+loss: 0.0093, acc: 1.0000, test_acc: 0.7753, f1: 0.7249
+loss: 0.0217, acc: 1.0000, test_acc: 0.7706, f1: 0.7135
+loss: 0.0113, acc: 1.0000, test_acc: 0.7658, f1: 0.7061
+loss: 0.0042, acc: 1.0000, test_acc: 0.7658, f1: 0.7035
+loss: 0.0061, acc: 1.0000, test_acc: 0.7642, f1: 0.7003
+loss: 0.0955, acc: 0.9911, test_acc: 0.7642, f1: 0.7111
+loss: 0.0017, acc: 0.9922, test_acc: 0.7769, f1: 0.7386
+loss: 0.0042, acc: 0.9931, test_acc: 0.7848, f1: 0.7519
+loss: 0.0302, acc: 0.9938, test_acc: 0.7801, f1: 0.7489
+loss: 0.0027, acc: 0.9943, test_acc: 0.7737, f1: 0.7380
+loss: 0.0351, acc: 0.9948, test_acc: 0.7722, f1: 0.7326
+loss: 0.0424, acc: 0.9952, test_acc: 0.7690, f1: 0.7183
+loss: 0.0023, acc: 0.9955, test_acc: 0.7674, f1: 0.7058
+loss: 0.0084, acc: 0.9958, test_acc: 0.7547, f1: 0.6833
+loss: 0.0019, acc: 0.9961, test_acc: 0.7769, f1: 0.7243
+loss: 0.0728, acc: 0.9926, test_acc: 0.7595, f1: 0.7129
+loss: 0.0462, acc: 0.9931, test_acc: 0.7595, f1: 0.7172
+loss: 0.2281, acc: 0.9868, test_acc: 0.7785, f1: 0.7355
+loss: 0.0014, acc: 0.9875, test_acc: 0.7579, f1: 0.6917
+loss: 0.0023, acc: 0.9881, test_acc: 0.7405, f1: 0.6557
+loss: 0.0026, acc: 0.9886, test_acc: 0.7753, f1: 0.7280
+loss: 0.0407, acc: 0.9891, test_acc: 0.7959, f1: 0.7620
+loss: 0.0326, acc: 0.9896, test_acc: 0.7880, f1: 0.7575
+loss: 0.0077, acc: 0.9900, test_acc: 0.7896, f1: 0.7578
+loss: 0.0294, acc: 0.9904, test_acc: 0.7864, f1: 0.7487
+loss: 0.2175, acc: 0.9884, test_acc: 0.7911, f1: 0.7545
+loss: 0.0012, acc: 0.9888, test_acc: 0.7737, f1: 0.7280
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 12
+loss: 0.0565, acc: 0.9375, test_acc: 0.7642, f1: 0.7153
+loss: 0.0022, acc: 0.9688, test_acc: 0.7801, f1: 0.7371
+loss: 0.0040, acc: 0.9792, test_acc: 0.7896, f1: 0.7514
+loss: 0.0036, acc: 0.9844, test_acc: 0.7864, f1: 0.7496
+loss: 0.0016, acc: 0.9875, test_acc: 0.7848, f1: 0.7485
+loss: 0.0013, acc: 0.9896, test_acc: 0.7864, f1: 0.7498
+loss: 0.2705, acc: 0.9821, test_acc: 0.7880, f1: 0.7504
+loss: 0.0012, acc: 0.9844, test_acc: 0.7896, f1: 0.7498
+loss: 0.0009, acc: 0.9861, test_acc: 0.7911, f1: 0.7506
+loss: 0.1301, acc: 0.9812, test_acc: 0.7927, f1: 0.7534
+loss: 0.0008, acc: 0.9830, test_acc: 0.7832, f1: 0.7441
+loss: 0.0028, acc: 0.9844, test_acc: 0.7880, f1: 0.7500
+loss: 0.0047, acc: 0.9856, test_acc: 0.7848, f1: 0.7481
+loss: 0.0026, acc: 0.9866, test_acc: 0.7896, f1: 0.7535
+loss: 0.0080, acc: 0.9875, test_acc: 0.7911, f1: 0.7558
+loss: 0.0034, acc: 0.9883, test_acc: 0.7943, f1: 0.7596
+loss: 0.0028, acc: 0.9890, test_acc: 0.7943, f1: 0.7601
+loss: 0.0018, acc: 0.9896, test_acc: 0.7911, f1: 0.7543
+loss: 0.0021, acc: 0.9901, test_acc: 0.7896, f1: 0.7539
+loss: 0.0055, acc: 0.9906, test_acc: 0.7896, f1: 0.7560
+loss: 0.0031, acc: 0.9911, test_acc: 0.7911, f1: 0.7569
+loss: 0.0023, acc: 0.9915, test_acc: 0.7927, f1: 0.7561
+loss: 0.1159, acc: 0.9891, test_acc: 0.7848, f1: 0.7370
+loss: 0.0024, acc: 0.9896, test_acc: 0.7769, f1: 0.7231
+loss: 0.0197, acc: 0.9900, test_acc: 0.7769, f1: 0.7242
+loss: 0.0013, acc: 0.9904, test_acc: 0.7832, f1: 0.7335
+loss: 0.0018, acc: 0.9907, test_acc: 0.7943, f1: 0.7483
+loss: 0.0080, acc: 0.9911, test_acc: 0.7911, f1: 0.7489
+loss: 0.0008, acc: 0.9914, test_acc: 0.7943, f1: 0.7556
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 13
+loss: 0.0023, acc: 1.0000, test_acc: 0.7848, f1: 0.7422
+loss: 0.0041, acc: 1.0000, test_acc: 0.7816, f1: 0.7371
+loss: 0.0253, acc: 1.0000, test_acc: 0.7832, f1: 0.7388
+loss: 0.0010, acc: 1.0000, test_acc: 0.7880, f1: 0.7436
+loss: 0.0012, acc: 1.0000, test_acc: 0.7848, f1: 0.7413
+loss: 0.0011, acc: 1.0000, test_acc: 0.7848, f1: 0.7417
+loss: 0.0095, acc: 1.0000, test_acc: 0.7864, f1: 0.7427
+loss: 0.0010, acc: 1.0000, test_acc: 0.7801, f1: 0.7321
+loss: 0.0012, acc: 1.0000, test_acc: 0.7722, f1: 0.7152
+loss: 0.0007, acc: 1.0000, test_acc: 0.7864, f1: 0.7439
+loss: 0.0963, acc: 0.9943, test_acc: 0.7911, f1: 0.7533
+loss: 0.0011, acc: 0.9948, test_acc: 0.7896, f1: 0.7581
+loss: 0.0057, acc: 0.9952, test_acc: 0.7801, f1: 0.7501
+loss: 0.0081, acc: 0.9955, test_acc: 0.7880, f1: 0.7567
+loss: 0.0019, acc: 0.9958, test_acc: 0.7864, f1: 0.7531
+loss: 0.0059, acc: 0.9961, test_acc: 0.7753, f1: 0.7356
+loss: 0.0029, acc: 0.9963, test_acc: 0.7722, f1: 0.7209
+loss: 0.0305, acc: 0.9965, test_acc: 0.7611, f1: 0.7027
+loss: 0.0011, acc: 0.9967, test_acc: 0.7674, f1: 0.7188
+loss: 0.0116, acc: 0.9969, test_acc: 0.7642, f1: 0.7206
+loss: 0.0021, acc: 0.9970, test_acc: 0.7880, f1: 0.7502
+loss: 0.0012, acc: 0.9972, test_acc: 0.7864, f1: 0.7494
+loss: 0.0790, acc: 0.9946, test_acc: 0.7168, f1: 0.6331
+loss: 0.0018, acc: 0.9948, test_acc: 0.6978, f1: 0.5996
+loss: 0.2592, acc: 0.9900, test_acc: 0.7468, f1: 0.6871
+loss: 0.0047, acc: 0.9904, test_acc: 0.7769, f1: 0.7368
+loss: 0.0314, acc: 0.9907, test_acc: 0.7769, f1: 0.7345
+loss: 0.0040, acc: 0.9911, test_acc: 0.7896, f1: 0.7507
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 14
+loss: 0.0139, acc: 1.0000, test_acc: 0.7753, f1: 0.7223
+loss: 0.0134, acc: 1.0000, test_acc: 0.7706, f1: 0.7112
+loss: 0.0707, acc: 0.9792, test_acc: 0.7690, f1: 0.7065
+loss: 0.0014, acc: 0.9844, test_acc: 0.7627, f1: 0.6993
+loss: 0.0041, acc: 0.9875, test_acc: 0.7674, f1: 0.7122
+loss: 0.0010, acc: 0.9896, test_acc: 0.7706, f1: 0.7205
+loss: 0.0039, acc: 0.9911, test_acc: 0.7801, f1: 0.7369
+loss: 0.0652, acc: 0.9844, test_acc: 0.7801, f1: 0.7385
+loss: 0.0013, acc: 0.9861, test_acc: 0.7785, f1: 0.7362
+loss: 0.0016, acc: 0.9875, test_acc: 0.7769, f1: 0.7346
+loss: 0.0888, acc: 0.9830, test_acc: 0.7801, f1: 0.7384
+loss: 0.0028, acc: 0.9844, test_acc: 0.7785, f1: 0.7367
+loss: 0.0097, acc: 0.9856, test_acc: 0.7769, f1: 0.7330
+loss: 0.1166, acc: 0.9821, test_acc: 0.7642, f1: 0.7101
+loss: 0.0134, acc: 0.9833, test_acc: 0.7516, f1: 0.6786
+loss: 0.0808, acc: 0.9805, test_acc: 0.7453, f1: 0.6711
+loss: 0.0435, acc: 0.9816, test_acc: 0.7658, f1: 0.7117
+loss: 0.0069, acc: 0.9826, test_acc: 0.7690, f1: 0.7173
+loss: 0.0319, acc: 0.9836, test_acc: 0.7737, f1: 0.7238
+loss: 0.0137, acc: 0.9844, test_acc: 0.7943, f1: 0.7539
+loss: 0.0007, acc: 0.9851, test_acc: 0.7801, f1: 0.7420
+loss: 0.0025, acc: 0.9858, test_acc: 0.7816, f1: 0.7455
+loss: 0.0016, acc: 0.9864, test_acc: 0.7880, f1: 0.7573
+loss: 0.0012, acc: 0.9870, test_acc: 0.7927, f1: 0.7646
+loss: 0.0045, acc: 0.9875, test_acc: 0.7927, f1: 0.7646
+loss: 0.0021, acc: 0.9880, test_acc: 0.7880, f1: 0.7588
+loss: 0.0015, acc: 0.9884, test_acc: 0.7864, f1: 0.7503
+loss: 0.0009, acc: 0.9888, test_acc: 0.7816, f1: 0.7407
+loss: 0.1723, acc: 0.9871, test_acc: 0.7627, f1: 0.7064
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+epoch: 15
+loss: 0.0378, acc: 1.0000, test_acc: 0.7231, f1: 0.6322
+loss: 0.1001, acc: 0.9688, test_acc: 0.7769, f1: 0.7344
+loss: 0.0024, acc: 0.9792, test_acc: 0.7816, f1: 0.7501
+loss: 0.0019, acc: 0.9844, test_acc: 0.7801, f1: 0.7515
+loss: 0.0064, acc: 0.9875, test_acc: 0.7832, f1: 0.7534
+loss: 0.0615, acc: 0.9792, test_acc: 0.7706, f1: 0.7272
+loss: 0.0477, acc: 0.9732, test_acc: 0.7627, f1: 0.7158
+loss: 0.0016, acc: 0.9766, test_acc: 0.7769, f1: 0.7375
+loss: 0.0569, acc: 0.9722, test_acc: 0.7864, f1: 0.7520
+loss: 0.1722, acc: 0.9688, test_acc: 0.7785, f1: 0.7398
+loss: 0.0010, acc: 0.9716, test_acc: 0.7690, f1: 0.7193
+loss: 0.0005, acc: 0.9740, test_acc: 0.7801, f1: 0.7411
+loss: 0.0311, acc: 0.9760, test_acc: 0.7880, f1: 0.7539
+loss: 0.0003, acc: 0.9777, test_acc: 0.7880, f1: 0.7527
+loss: 0.0075, acc: 0.9792, test_acc: 0.7927, f1: 0.7581
+loss: 0.0007, acc: 0.9805, test_acc: 0.7785, f1: 0.7341
+loss: 0.0011, acc: 0.9816, test_acc: 0.7737, f1: 0.7253
+loss: 0.0013, acc: 0.9826, test_acc: 0.7611, f1: 0.7130
+loss: 0.0025, acc: 0.9836, test_acc: 0.7627, f1: 0.7208
+loss: 0.0022, acc: 0.9844, test_acc: 0.7690, f1: 0.7298
+loss: 0.0115, acc: 0.9851, test_acc: 0.7737, f1: 0.7377
+loss: 0.1439, acc: 0.9830, test_acc: 0.7911, f1: 0.7570
+loss: 0.0015, acc: 0.9837, test_acc: 0.7801, f1: 0.7426
+loss: 0.0293, acc: 0.9844, test_acc: 0.7690, f1: 0.7257
+loss: 0.2478, acc: 0.9800, test_acc: 0.7816, f1: 0.7439
+loss: 0.0024, acc: 0.9808, test_acc: 0.7706, f1: 0.7315
+loss: 0.0071, acc: 0.9815, test_acc: 0.7627, f1: 0.7190
+loss: 0.0479, acc: 0.9799, test_acc: 0.7516, f1: 0.6997
+loss: 0.0007, acc: 0.9803, test_acc: 0.7722, f1: 0.7281
+max_test_acc: 0.8227848101265823, max_f1: 0.7879681580953504
+>> saved: ./log/state_dict/gcnbert_laptop_acc_0.8228_f1_0.7880
+############################################################
+max_train_acc_overall:0.8227848101265823
+max_f1_overall:0.7879681580953504
+Precision, Recall and F1-Score...
+              precision    recall  f1-score   support
+
+           0     0.9157    0.9021    0.9088       337
+           1     0.6928    0.8281    0.7544       128
+           2     0.7483    0.6587    0.7006       167
+
+    accuracy                         0.8228       632
+   macro avg     0.7856    0.7963    0.7880       632
+weighted avg     0.8263    0.8228    0.8225       632
+
+Confusion Matrix...
+[[304  13  20]
+ [  5 106  17]
+ [ 23  34 110]]
