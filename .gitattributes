@@ -1,3 +1,0 @@
-best_results filter=lfs diff=lfs merge=lfs -text
-best_results/gcnbert_laptop_acc_0.8228_f1_0.7880 filter=lfs diff=lfs merge=lfs -text
-best_results/gcn_laptop_acc_0.7848_f1_0.7528 filter=lfs diff=lfs merge=lfs -text
