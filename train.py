@@ -28,8 +28,8 @@ model_classes = {'gcn': GCNClassifier,
 
 dataset_files = {
     'restaurant': {
-        'train': './dataset/Restaurants_stanza/train.json',
-        'test': './dataset/Restaurants_stanza/test.json',
+        'train': './dataset/Restaurants_corenlp/train.json',
+        'test': './dataset/Restaurants_corenlp/test.json',
     },
     'laptop': {
         'train': './dataset/Laptops_corenlp/train.json',
@@ -38,8 +38,8 @@ dataset_files = {
         # 'test': './dataset/Laptops_biaffine/test.json'
     },
     'twitter': {
-        'train': './dataset/Tweets_stanza/train.json',
-        'test': './dataset/Tweets_stanza/test.json',
+        'train': './dataset/Tweets_corenlp/train.json',
+        'test': './dataset/Tweets_corenlp/test.json',
     }
 }
 
@@ -114,7 +114,7 @@ parser.add_argument('--gama', default=0.5, type=float, help='the weight of kl di
 parser.add_argument('--distance_matrix_debug', default=False, type=bool, help='debug mode')
 
 # * bert
-parser.add_argument('--pretrained_bert_name', default='bert-large-uncased', type=str)
+parser.add_argument('--pretrained_bert_name', default='bert-base-uncased', type=str)
 parser.add_argument("--adam_epsilon", default=1e-8, type=float, help="Epsilon for Adam optimizer.")
 parser.add_argument('--bert_dim', type=int, default=768)
 parser.add_argument('--bert_dropout', type=float, default=0.3, help='BERT dropout rate.')
@@ -127,6 +127,10 @@ opt.dataset_file = dataset_files[opt.dataset]
 opt.inputs_cols = input_colses[opt.model_name]
 opt.initializer = initializers[opt.initializer]
 opt.optimizer = optimizers[opt.optimizer]
+
+print("choice cuda:{}".format(opt.cuda))
+os.environ["CUDA_VISIBLE_DEVICES"] = opt.cuda
+opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') if opt.device is None else torch.device(opt.device)
 
 if 'bert' in opt.model_name:
     tokenizer = Tokenizer4BertGCN(opt.max_length, opt.pretrained_bert_name)
@@ -160,7 +164,7 @@ else:
 
     opt.post_size = len(post_vocab)  # 位置词典的大小
     opt.pos_size = len(pos_vocab)  # 词性标签大小
-    opt.device = torch.cuda.current_device() if torch.cuda.is_available() else "cpu"  # gpu加速
+    # opt.device = torch.cuda.current_device() if torch.cuda.is_available() else "cpu"  # gpu加速
 
     vocab_help = (post_vocab, pos_vocab, dep_vocab, pol_vocab)
     model = opt.model_class(opt, embedding_matrix).to(opt.device)
@@ -190,8 +194,12 @@ log_file = '{}-{}-{}.log'.format(opt.model_name, opt.dataset, strftime("%Y-%m-%d
 logger.addHandler(logging.FileHandler("%s/%s" % ('./log', log_file)))
 
 # 创建一个目录，保存所有的日志文件
-if not os.path.exists('./results'):
-    os.makedirs('./results', mode=0o777)
+if 'bert' in opt.model_name:
+    if not os.path.exists('./results_bert'):
+        os.mkdir('./results_bert', mode=0o777)
+else:
+    if not os.path.exists('./results'):
+        os.makedirs('./results', mode=0o777)
 
 our_trainer = Trainer(opt, model, train_dataloader, test_dataloader, logger)
 our_trainer._print_args()

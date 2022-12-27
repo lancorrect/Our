@@ -2,10 +2,10 @@
 
 # * laptop
 
-# * DualGCN
-python ./train.py --model_name $MODEL_NAME --dataset $DATASET --seed $SEED --num_epoch $NUM_EPOCH --vocab_dir $VOCAB_DIR --fusion $FUSION --alpha $ALPHA --beta $BETA --gama $GAMA
-# * DualGCN with Bert
-# CUDA_VISIBLE_DEVICES=0 python ./DualGCN/train.py --model_name dualgcnbert --dataset laptop --seed 1000 --bert_lr 2e-5 --num_epoch 15 --hidden_dim 768 --max_length 100 --cuda 0 --losstype doubleloss --alpha 0.4 --beta 0.3 --parseadj
+# * GCN
+# python ./train.py --model_name $MODEL_NAME --dataset $DATASET --seed $SEED --num_epoch $NUM_EPOCH --vocab_dir $VOCAB_DIR --fusion $FUSION --alpha $ALPHA --beta $BETA --gama $GAMA
+# * GCN with Bert
+python ./train.py --model_name $MODEL_NAME --dataset $DATASET --seed $SEED  --bert_lr 2e-5 --num_epoch $NUM_EPOCH --hidden_dim 768 --max_length 100 --cuda 0 --fusion $FUSION --alpha $ALPHA --beta $BETA --gama $GAMA
 
 
 # * restaurant
@@ -24,4 +24,5 @@ python ./train.py --model_name $MODEL_NAME --dataset $DATASET --seed $SEED --num
 # CUDA_VISIBLE_DEVICES=0 python ./DualGCN/train.py --model_name dualgcnbert --dataset twitter --seed 1000 --bert_lr 2e-5 --num_epoch 15 --hidden_dim 768 --max_length 100 --cuda 0 --losstype doubleloss --alpha 0.5 --beta 0.9 --parseadj
 
 # test
-# python ./train.py --model_name gcn --dataset laptop --seed 1000 --num_epoch 50 --vocab_dir ./dataset/Laptops_stanza --fusion True --alpha -1 --beta -0.9
+# python ./train.py --model_name gcn --dataset laptop --seed 1000 --num_epoch 50 --vocab_dir ./dataset/Laptops_corenlp --fusion True --alpha 1.0 --beta 0.9 --gama 3.0
+# python ./train.py --model_name gcnbert --dataset laptop --seed 1000 --bert_lr 2e-5 --num_epoch 15 --hidden_dim 768 --max_length 100 --cuda 0 --fusion True --alpha 1.4 --beta 0.5 --gama 0.1

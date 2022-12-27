@@ -118,6 +118,8 @@ class Trainer:
                 optimizer.step()
 
                 if global_step % self.opt.log_step == 0:
+                    # n_correct和n_total使用+=的原因是它们统计的是在训练一代的过程中正确的个数和数据整体的个数
+                    # 然后在整体测试集上测试效果，看模型在什么时候效果最好，如果效果好的话，直接保存下来
                     n_correct += (torch.argmax(outputs, -1) == targets).sum().item()
                     n_total += len(outputs)
                     train_acc = n_correct / n_total
@@ -203,13 +205,19 @@ class Trainer:
         final_result['acc'] = max_test_acc_overall
         final_result['f1'] = max_f1_overall
         final_result['model_path'] = model_path
-        keys = ['learning_rate', 'l2reg', 'num_epoch', 'batch_size', 'embed_dim', 'post_dim',
-                'pos_dim', 'hidden_dim', 'num_layers', 'input_dropout', 'gcn_dropout', 'rnn_hidden',
-                'attention_heads', 'seed', 'fusion', 'alpha', 'beta', 'gama']
+        if 'bert' in self.opt.model_name:
+            keys = ['learning_rate', 'bert_lr', 'l2reg', 'num_epoch', 'num_layers', 'batch_size', 'hidden_dim', 'bert_dim', 'input_dropout', 'gcn_dropout',
+                    'bert_dropout', 'attention_heads', 'seed', 'fusion', 'alpha', 'beta', 'gama']
+            base_dir = './results_bert/'
+        else:
+            keys = ['learning_rate', 'l2reg', 'num_epoch', 'batch_size', 'embed_dim', 'post_dim',
+                    'pos_dim', 'hidden_dim', 'num_layers', 'input_dropout', 'gcn_dropout', 'rnn_hidden',
+                    'attention_heads', 'seed', 'fusion', 'alpha', 'beta', 'gama']
+            base_dir = './results'
         for arg in vars(self.opt):
             if arg in keys:
                 final_result[arg] = (vars(self.opt)[arg])
         file_name = '{}-{}-{}.log'.format(self.opt.model_name, self.opt.dataset, strftime("%Y-%m-%d_%H:%M:%S", localtime()))
-        with open(os.path.join('./results/', file_name), 'w', encoding='utf-8') as f:
+        with open(os.path.join(base_dir, file_name), 'w', encoding='utf-8') as f:
             f.write(str(final_result))
             f.close()
