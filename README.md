@@ -6,9 +6,9 @@ What I implement is based on **[DualGCN](https://github.com/CCChenhao997/DualGCN
 
 The following is my **expriment results**.
 
-|              |  Restaurant  |  Restaurant  |    Laptop    |    Laptop    |   Twitter    |   Twitter    |
+| **Models**   |  Restaurant  |  Restaurant  |    Laptop    |    Laptop    |   Twitter    |   Twitter    |
 | ------------ | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: |
-| **Models**   | **Accuracy** | **Macro-F1** | **Accuracy** | **Macro-F1** | **Accuracy** | **Macro-F1** |
+|              | **Accuracy** | **Macro-F1** | **Accuracy** | **Macro-F1** | **Accuracy** | **Macro-F1** |
 | IAN          |    78.60     |      -       |    72.10     |      -       |      -       |      -       |
 | RAM          |    80.23     |    70.80     |    74.49     |    71.35     |    69.36     |    67.30     |
 | TNet         |    80.69     |    71.27     |    76.54     |    71.75     |    74.90     |    73.60     |
@@ -30,7 +30,7 @@ The following is my **expriment results**.
 | T-GCN+BERT   |    86.16     |    79.95     |    80.88     |    77.03     |    76.45     |    75.25     |
 | DualGCN+BERT |    87.13     |    81.16     |    81.80     |    78.10     |    77.40     |    76.02     |
 | SSEGCN+BERT  |    87.31     |    81.09     |    81.01     |    77.96     |    77.40     |    76.02     |
-| Our+BERT     |  **87.85**   |  **82.81**   |  **82.28**   |  **78.80**   |  **78.14**   |  **76.65**   |
+| **Our+BERT** |  **87.85**   |  **82.81**   |  **82.28**   |  **78.80**   |  **78.14**   |  **76.65**   |
 
 ### Come on man!
 
